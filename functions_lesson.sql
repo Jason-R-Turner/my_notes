@@ -23,10 +23,16 @@ FROM
     employees;
     
 SELECT 
+    lower(concat(first_name, '.', last_name, '@company.com')) AS username
+FROM
+    employees;
+# returns 'georgi.facello@company.com'
+    
+SELECT 
     concat(lower(first_name, '.', last_name, '@company.com')) AS username
 FROM
     employees;
-# Doesn't work if you switch concat and lower, it gives Error Code: 1582. Incorrect parameter count in the call to native function 'lower'
+# Doesn't work if you concat using lower, it gives Error Code: 1582. Incorrect parameter count in the call to native function 'lower'
     
 -- SUBSTRING 
 -- Substring function allows us to obtain part of a string
@@ -53,33 +59,42 @@ SELECT REPLACE('abcdefgabc', 'abc', '123');
 -- https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html
 
 -- we can get the day or month name of the week from a date (or string that mathes the date format)
-select dayname("1970-01-01");
+SELECT DAYNAME('1970-01-01');
 # returns 'Thursday'
 
-select monthname("2022-03-31");
+SELECT MONTHNAME('2022-03-31');
 # returns 'March'
 
 -- Current date. time or timestamp
-select curdate();
+SELECT CURDATE();
 # returns '2022-04-01'
 
-select current_time();
+SELECT NOW();
+# returns '2022-04-01 15:31:48'
+
+SELECT CURRENT_TIME();
 # returns '14:57:37'
 
-select current_timestamp();
+SELECT CURRENT_TIMESTAMP();
 # returns '2022-04-01 14:58:36'
 
 -- how many years has it been since each employee's original hire date and today?
-select *, datediff(curdate(), hire_date)/365 as tenure from employees;
+SELECT 
+    *, DATEDIFF(CURDATE(), hire_date) / 365 AS tenure
+FROM
+    employees;
 # returns many results like '10001', '1953-09-02', 'Georgi', 'Facello', 'M', '1986-06-26', '35.7890', with the last column being "tenure"
 
 
 -- unix time is the number of seconds since 1970-01-01
-select unix_timestamp('1971-01-01;');
+SELECT UNIX_TIMESTAMP('1971-01-01;');
 # returns '31536000'
 
 -- We can add our function outputs as new columns onto existing output e.g. days someone was born
-select *, dayname(birth_date) as day_of_birth from employees;
+SELECT 
+    *, DAYNAME(birth_date) AS day_of_birth
+FROM
+    employees;
 # returns many results like '10001', '1953-09-02', 'Georgi', 'Facello', 'M', '1986-06-26', 'Wednesday', with the last column being "day_of_birth"
 
 
