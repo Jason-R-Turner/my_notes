@@ -84,6 +84,7 @@ SELECT
 FROM
     employees;
 # returns many results like '10001', '1953-09-02', 'Georgi', 'Facello', 'M', '1986-06-26', '35.7890', with the last column being "tenure"
+# subtracts 2nd date from the 1st date
 
 
 -- unix time is the number of seconds since 1970-01-01
